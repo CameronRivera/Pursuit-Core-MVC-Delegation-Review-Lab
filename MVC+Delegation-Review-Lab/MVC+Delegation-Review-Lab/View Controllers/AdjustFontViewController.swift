@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol AdjustFontViewControllerDelegate: AnyObject{
+    var fontSize: Double { get set }
+}
+
 class AdjustFontViewController: UIViewController {
 
     // MARK: Outlets of AdjustFontViewController
@@ -23,8 +27,12 @@ class AdjustFontViewController: UIViewController {
             fontSizeLabel.text = "Preview Font Size: \(String(format:"%0.f",fontSize))" 
             fontStepper.value = fontSize
             fontSlider.value = Float(fontSize)
+            fontSizeChanged(self)
         }
     }
+    
+    // Weak reference to movieViewController
+    weak var delegate: AdjustFontViewControllerDelegate?
     
     // MARK: Lifecycle Methods
     override func viewDidLoad() {
@@ -51,6 +59,13 @@ class AdjustFontViewController: UIViewController {
         fontSize = sender.value
     }
     
+    @IBAction func backButtonPressed(_ sender: UIBarButtonItem){
+        navigationController?.popViewController(animated: true)
+    }
     
+    // MARK: Delegate Methods
+    func fontSizeChanged(_ adjustFontViewController: AdjustFontViewController){
+        delegate?.fontSize = adjustFontViewController.fontSize
+    }
     
 }

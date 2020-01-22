@@ -16,7 +16,7 @@ class movieViewController: UIViewController {
     
     // MARK: Properties of movieViewController
     var movies: [Movie] = []
-    var fontSize: CGFloat = 17.0 {
+    var fontSize: Double = 17.0 {
         didSet{
             tableView.reloadData()
         }
@@ -34,17 +34,18 @@ class movieViewController: UIViewController {
         settingsButton.title = "Settings"
     }
     // MARK: Target Actions
-    @IBAction func editFont(_ segue: UIStoryboardSegue){
-        guard let adjustFontVCReference = segue.source as? AdjustFontViewController else{
-            return
-        }
-        fontSize = floor(CGFloat(adjustFontVCReference.fontSize))
-    }
+//    @IBAction func editFont(_ segue: UIStoryboardSegue){
+//        guard let adjustFontVCReference = segue.source as? AdjustFontViewController else{
+//            return
+//        }
+//        fontSize = floor(Double(adjustFontVCReference.fontSize))
+//    }
     
     @IBAction func settingsButtonPressed(_ sender: UIBarButtonItem){
         let newStoryboard = UIStoryboard(name: "SecondStoryboard", bundle: nil)
         let fontAdjustVCReference = newStoryboard.instantiateViewController(withIdentifier: "adjustFontViewController") as! AdjustFontViewController
         fontAdjustVCReference.initialFont = Double(fontSize)
+        fontAdjustVCReference.delegate = self
         navigationController?.pushViewController(fontAdjustVCReference, animated: true)
     }
     
@@ -55,9 +56,9 @@ extension movieViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let xCell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath)
         xCell.textLabel?.text = movies[indexPath.row].name
-        xCell.textLabel?.font = UIFont(name: "Avenir", size: fontSize)
+        xCell.textLabel?.font = UIFont(name: "Avenir", size: CGFloat(fontSize))
         xCell.detailTextLabel?.text = movies[indexPath.row].year.description
-        xCell.detailTextLabel?.font = UIFont(name: "Avenir", size: fontSize)
+        xCell.detailTextLabel?.font = UIFont(name: "Avenir", size: CGFloat(fontSize))
         
         return xCell
     }
@@ -65,4 +66,8 @@ extension movieViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
+}
+
+// MARK: AdjustFontViewControllerDelegate Methods
+extension movieViewController: AdjustFontViewControllerDelegate{
 }
