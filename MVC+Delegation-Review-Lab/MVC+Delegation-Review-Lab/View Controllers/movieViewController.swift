@@ -33,13 +33,6 @@ class movieViewController: UIViewController {
         movies = Movie.allMovies
         settingsButton.title = "Settings"
     }
-    // MARK: Target Actions
-//    @IBAction func editFont(_ segue: UIStoryboardSegue){
-//        guard let adjustFontVCReference = segue.source as? AdjustFontViewController else{
-//            return
-//        }
-//        fontSize = floor(Double(adjustFontVCReference.fontSize))
-//    }
     
     @IBAction func settingsButtonPressed(_ sender: UIBarButtonItem){
         let newStoryboard = UIStoryboard(name: "SecondStoryboard", bundle: nil)
@@ -70,4 +63,9 @@ extension movieViewController: UITableViewDataSource{
 
 // MARK: AdjustFontViewControllerDelegate Methods
 extension movieViewController: AdjustFontViewControllerDelegate{
+    
+    func fontSizeAdjusted(_ AdjustFontViewController: AdjustFontViewController) {
+        self.fontSize = AdjustFontViewController.fontSize
+    }
+    
 }

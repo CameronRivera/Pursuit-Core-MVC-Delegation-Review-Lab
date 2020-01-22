@@ -10,6 +10,7 @@ import UIKit
 
 protocol AdjustFontViewControllerDelegate: AnyObject{
     var fontSize: Double { get set }
+    func fontSizeAdjusted(_ AdjustFontViewController: AdjustFontViewController)
 }
 
 class AdjustFontViewController: UIViewController {
@@ -27,7 +28,7 @@ class AdjustFontViewController: UIViewController {
             fontSizeLabel.text = "Preview Font Size: \(String(format:"%0.f",fontSize))" 
             fontStepper.value = fontSize
             fontSlider.value = Float(fontSize)
-            fontSizeChanged(self)
+            delegate?.fontSizeAdjusted(self)
         }
     }
     
@@ -61,11 +62,6 @@ class AdjustFontViewController: UIViewController {
     
     @IBAction func backButtonPressed(_ sender: UIBarButtonItem){
         navigationController?.popViewController(animated: true)
-    }
-    
-    // MARK: Delegate Methods
-    func fontSizeChanged(_ adjustFontViewController: AdjustFontViewController){
-        delegate?.fontSize = adjustFontViewController.fontSize
     }
     
 }
